@@ -74,7 +74,7 @@ objects:
           emptyDir:
             medium: Memory
         containers:
-        - image: ${IMAGE_GATE}:${IMAGE_GATE_TAG}
+        - image: ${IMAGE_GATE}:${IMAGE_GATE_TAG}@${IMAGE_GATE_DIGEST}
           imagePullPolicy: Always
           name: app-interface-nginx-gate
           env:
@@ -122,7 +122,7 @@ objects:
             initialDelaySeconds: 10
           resources: "${{GATE_RESOURCES}}"
 
-        - image: ${IMAGE_RELOADER}:${IMAGE_RELOADER_TAG}
+        - image: ${IMAGE_RELOADER}:${IMAGE_RELOADER_TAG}@${IMAGE_RELOADER_DIGEST}
           imagePullPolicy: Always
           name: s3-reloader
           env:
@@ -294,11 +294,15 @@ parameters:
 - name: TARGET_CPU_UTILIZATION_PERCENTAGE
   value: "80"
 - name: IMAGE_GATE
-  value: quay.io/app-sre/nginx-gate
+  value: quay.io/redhat-services-prod/app-sre-tenant/nginx-gate-master/nginx-gate-master
 - name: IMAGE_GATE_TAG
-  value: latest
+  value: cdeb409
   displayName: App interface nginx gate version
   description: App interface nginx gate version which defaults to latest
+- name: IMAGE_GATE_DIGEST
+  value: sha256:11ff1a9d8934011c4027ee78ac24238a407716210678579a33de5a4a26382c2b
+  displayName: App interface nginx gate image digest
+  description: App interface nginx gate image digest.
 - name: IMAGE_GATE_AUTH_DISABLE
   value: "false"
   description: Set to true to disable authentication for accessing qontract server
@@ -307,9 +311,13 @@ parameters:
   description: Maximum nginx cache size
 
 - name: IMAGE_RELOADER
-  value: quay.io/app-sre/s3-reload
+  value: quay.io/redhat-services-prod/app-sre-tenant/s3-reload-master/s3-reload-master
 - name: IMAGE_RELOADER_TAG
-  value: 0bc8c97
+  value: 50f2723
+- name: IMAGE_RELOADER_DIGEST
+  value: sha256:ca31c597fb3c179d35eacee423551cec6e7fbb53bbe1b764b6879cea1bb7edb6
+  displayName: s3-reloader image digest
+  description: s3-reloader image digest.
 - name: MAX_OLD_SPACE_SIZE
   value: "400"
 
